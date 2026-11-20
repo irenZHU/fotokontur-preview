@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фотоконтур — ЛК</title>
+    <script type="module" crossorigin src="./assets/index-D3qubYGm.js"></script>
+    <link rel="modulepreload" crossorigin href="./assets/ripple-JTR065I6.js">
+    <link rel="modulepreload" crossorigin href="./assets/button-3jREkesI.js">
+    <link rel="stylesheet" crossorigin href="./assets/index-zCB_BwLG.css">
+  <style>@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(./fonts/manrope-cyrillic-wght-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}@font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url(./fonts/manrope-latin-wght-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>
+  <!-- демо на сайте (правка заказчика 05.11.2026): поиск в «Фотосессиях» короче (275 вместо 320) — иначе фильтр «Учреждение» уезжал за край -->
+  <style>.ps-page__cal-search-wrap,.ps-page__cal-search-wrap.filter-field_single{flex:0 0 275px!important;width:275px!important;min-width:275px!important}</style>
+  <!-- демо на сайте (правка заказчика 05.11.2026): в «Заказах» фильтры, не влезающие в строку, сворачиваются в кнопку-воронку,
+       как в «Фотосессиях»; кнопка раскрывает их все. В самом прототипе такого нет — кнопка «Фильтр» там только у суперадмина -->
+  <style>.fk-hide{display:none!important}</style>
+  <script>
+  (function(){
+    var raf=0;
+    function fit(){
+      raf=0;
+      var row=document.querySelector('.ord-page__filters');if(!row)return;
+      var btn=row.querySelector('.fk-filter-btn');
+      if(!btn){
+        btn=document.createElement('button');btn.type='button';btn.className='ord-page__cfg-btn fk-filter-btn';
+        btn.setAttribute('aria-label','Все фильтры');btn.title='Все фильтры';btn.innerHTML='<i class="pi pi-filter"></i>';
+        btn.addEventListener('click',function(){row.classList.toggle('fk-open');fit()});
+        row.appendChild(btn);
+      }
+      var kids=[].slice.call(row.children);
+      var fields=kids.filter(function(c){return c!==btn&&c!==kids[0]&&c.classList.contains('filter-field')});
+      var open=row.classList.contains('fk-open');
+      btn.classList.toggle('ord-page__cfg-btn_active',open);
+      fields.forEach(function(f){f.classList.remove('fk-hide')});
+      btn.classList.remove('fk-hide');
+      if(open)return;
+      var top=kids[0].offsetTop+20,hidden=0;   // +20: кнопка ниже поля на несколько пикселей из-за выравнивания по центру
+      for(var i=fields.length-1;i>=0;i--){
+        var wrapped=fields.some(function(f){return!f.classList.contains('fk-hide')&&f.offsetTop>top})||btn.offsetTop>top;
+        if(!wrapped)break;
+        fields[i].classList.add('fk-hide');hidden++;
+      }
+      if(!hidden)btn.classList.add('fk-hide');
+    }
+    function later(){if(!raf)raf=requestAnimationFrame(fit)}
+    new MutationObserver(later).observe(document.documentElement,{childList:true,subtree:true});
+    addEventListener('resize',later);
+  })();
+  </script>
+</head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+import{H as e,S as t,U as n,mt as r}from"./useApi-CROJJdhE-C4U-Rwr5.js";var i=960,a=640;function o(){let o=r(typeof window<`u`?window.innerWidth:1920);function s(){o.value=window.innerWidth}return e(()=>window.addEventListener(`resize`,s)),n(()=>window.removeEventListener(`resize`,s)),{width:o,isTabletDown:t(()=>o.value<=i),isMobile:t(()=>o.value<=a)}}export{o as t};
